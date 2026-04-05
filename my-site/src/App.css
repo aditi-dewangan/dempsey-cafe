@@ -293,6 +293,39 @@
   color: var(--text-muted);
 }
 
+.systems-grid,
+.workshop-grid,
+.split-grid,
+.pricing-grid {
+  display: grid;
+  gap: 20px;
+  margin-top: 34px;
+}
+
+.systems-grid,
+.workshop-grid,
+.pricing-grid {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.split-grid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.top-gap {
+  margin-top: 24px;
+}
+
+.perks-list {
+  margin: 16px 0 0;
+  padding-left: 1.1rem;
+  color: var(--text-muted);
+}
+
+.perks-list li + li {
+  margin-top: 8px;
+}
+
 .pillar-grid,
 .menu-grid,
 .team-grid,
@@ -720,7 +753,11 @@
   .welcome-feature-band,
   .welcome-gallery,
   .welcome-story-card,
-  .mode-options {
+  .mode-options,
+  .systems-grid,
+  .workshop-grid,
+  .split-grid,
+  .pricing-grid {
     grid-template-columns: 1fr;
   }
 
