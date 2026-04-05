@@ -1,0 +1,89 @@
+:root {
+  --bg: #ffffff;
+  --surface: rgba(232, 240, 227, 0.88);
+  --accent: #7f9b72;
+  --accent-deep: #556c4b;
+  --green: #91aa83;
+  --green-dark: #5f7753;
+  --text-strong: #233024;
+  --text-muted: #576455;
+  --border: rgba(100, 126, 89, 0.18);
+  --border-strong: rgba(100, 126, 89, 0.3);
+  --shadow-soft: 0 22px 40px rgba(68, 82, 63, 0.12);
+  --heading: 'Georgia', 'Times New Roman', serif;
+  --sans: 'Avenir Next', 'Segoe UI', sans-serif;
+
+  font-family: var(--sans);
+  line-height: 1.5;
+  font-weight: 400;
+  color: var(--text-muted);
+  background: var(--bg);
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+  min-height: 100vh;
+  background: var(--bg);
+}
+
+button,
+input,
+select,
+textarea {
+  font: inherit;
+}
+
+img {
+  max-width: 100%;
+  display: block;
+}
+
+#root {
+  min-height: 100vh;
+}
+
+h1,
+h2,
+h3,
+p {
+  margin-top: 0;
+}
+
+h1,
+h2,
+h3 {
+  color: var(--text-strong);
+  font-family: var(--heading);
+  line-height: 1.05;
+}
+
+h1 {
+  font-size: clamp(2.7rem, 5vw, 5rem);
+  margin-bottom: 18px;
+}
+
+h2 {
+  font-size: clamp(1.5rem, 2vw, 2.15rem);
+  margin-bottom: 12px;
+}
+
+p {
+  margin-bottom: 0;
+}
+
+a {
+  color: inherit;
+}
