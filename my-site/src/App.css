@@ -410,6 +410,21 @@
   grid-template-columns: repeat(3, minmax(0, 1fr));
 }
 
+.menu-note {
+  margin-top: 28px;
+  padding: 20px 22px;
+  border-radius: 22px;
+  border: 1px solid rgba(123, 151, 116, 0.14);
+  background: rgba(236, 244, 232, 0.84);
+  box-shadow: var(--shadow-soft);
+}
+
+.menu-note strong {
+  display: block;
+  margin-bottom: 6px;
+  color: var(--text-strong);
+}
+
 .menu-items {
   display: grid;
   gap: 16px;
@@ -479,26 +494,29 @@
   display: inline-block;
 }
 
-.legend-dot.solo,
-.table-seat.type-solo {
-  background: #d6c2ea;
+.legend-dot.window-booth-natural,
+.table-seat.type-window-booth-natural {
+  background: #d4b6ff;
 }
 
-.legend-dot.focus,
-.table-seat.type-focus {
-  background: #bbd7af;
+.legend-dot.booth-dim,
+.table-seat.type-booth-dim {
+  background: #ab7ae4;
 }
 
-.legend-dot.duo,
-.table-seat.type-duo,
-.table-seat.type-community,
-.table-seat.type-window {
-  background: #9ab98c;
+.legend-dot.lounge-natural,
+.table-seat.type-lounge-natural {
+  background: #c596ff;
+}
+
+.legend-dot.table-dim,
+.table-seat.type-table-dim {
+  background: #8a5ec8;
 }
 
 .legend-dot.occupied,
 .table-seat.type-occupied {
-  background: #d9d6d4;
+  background: #b99bd4;
 }
 
 .table-map {
@@ -592,13 +610,79 @@
 }
 
 .booking-form input,
-.booking-form select {
+.booking-form select,
+.booking-form textarea {
   border: 1px solid var(--border-strong);
   border-radius: 16px;
   padding: 0.9rem 1rem;
   font: inherit;
   background: rgba(247, 251, 244, 0.92);
   color: var(--text-strong);
+}
+
+.booking-form textarea {
+  resize: vertical;
+  min-height: 96px;
+  border-radius: 18px;
+}
+
+.mode-fieldset {
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+.mode-fieldset legend {
+  font-weight: 600;
+  color: var(--text-strong);
+  margin-bottom: 8px;
+}
+
+.field-help {
+  margin-bottom: 12px;
+  color: var(--text-muted);
+}
+
+.mode-options {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.mode-option {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  align-items: start;
+  gap: 10px;
+  padding: 14px 16px;
+  border-radius: 18px;
+  border: 1px solid rgba(145, 103, 192, 0.2);
+  background: rgba(255, 255, 255, 0.72);
+  cursor: pointer;
+}
+
+.mode-option.active {
+  border-color: rgba(127, 85, 170, 0.42);
+  background: rgba(245, 237, 255, 0.86);
+}
+
+.mode-option input {
+  margin: 0.15rem 0 0;
+}
+
+.mode-option strong {
+  display: block;
+  color: var(--text-strong);
+  font-size: 0.98rem;
+  font-weight: 600;
+}
+
+.mode-option span {
+  display: block;
+  margin-top: 4px;
+  color: var(--text-muted);
+  font-size: 0.78rem;
+  line-height: 1.35;
 }
 
 .payment-box {
@@ -610,6 +694,14 @@
 
 .success-card {
   background: linear-gradient(160deg, rgba(219, 239, 210, 0.97), rgba(237, 245, 232, 0.95));
+}
+
+.selection-note,
+.confirmation-meta {
+  margin-top: 10px;
+  color: var(--text-muted);
+  font-size: 0.8rem;
+  line-height: 1.4;
 }
 
 .payment-row {
@@ -627,7 +719,8 @@
   .welcome-intro,
   .welcome-feature-band,
   .welcome-gallery,
-  .welcome-story-card {
+  .welcome-story-card,
+  .mode-options {
     grid-template-columns: 1fr;
   }
 

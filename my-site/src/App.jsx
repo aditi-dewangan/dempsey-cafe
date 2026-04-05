@@ -143,48 +143,44 @@ const menuSections = [
 
 const reservationRows = [
   [
-    { id: 'A1', type: 'window-natural', price: 20 },
-    { id: 'A2', type: 'window-dim', price: 18 },
-    { id: 'A3', type: 'booth-natural', price: 19 },
-    { id: 'A4', type: 'booth-dim', price: 17 },
-    { id: 'A5', type: 'occupied', price: 17 },
+    { id: 'A1', type: 'window-booth-natural', price: 22 },
+    { id: 'A2', type: 'booth-dim', price: 17 },
+    { id: 'A3', type: 'lounge-natural', price: 19 },
+    { id: 'A4', type: 'table-dim', price: 16 },
+    { id: 'A5', type: 'occupied', price: 16 },
     { id: 'A6', type: 'window-booth-natural', price: 22 },
   ],
   [
-    { id: 'B1', type: 'window-booth-dim', price: 20 },
-    { id: 'B2', type: 'occupied', price: 18 },
-    { id: 'B3', type: 'window-natural', price: 20 },
-    { id: 'B4', type: 'booth-natural', price: 19 },
-    { id: 'B5', type: 'window-dim', price: 18 },
+    { id: 'B1', type: 'booth-dim', price: 17 },
+    { id: 'B2', type: 'occupied', price: 16 },
+    { id: 'B3', type: 'lounge-natural', price: 19 },
+    { id: 'B4', type: 'table-dim', price: 16 },
+    { id: 'B5', type: 'window-booth-natural', price: 22 },
     { id: 'B6', type: 'booth-dim', price: 17 },
   ],
   [
-    { id: 'C1', type: 'window-booth-natural', price: 22 },
-    { id: 'C2', type: 'window-booth-dim', price: 20 },
-    { id: 'C3', type: 'window-natural', price: 20 },
-    { id: 'C4', type: 'occupied', price: 18 },
-    { id: 'C5', type: 'booth-natural', price: 19 },
-    { id: 'C6', type: 'window-dim', price: 18 },
+    { id: 'C1', type: 'lounge-natural', price: 19 },
+    { id: 'C2', type: 'table-dim', price: 16 },
+    { id: 'C3', type: 'window-booth-natural', price: 22 },
+    { id: 'C4', type: 'occupied', price: 16 },
+    { id: 'C5', type: 'booth-dim', price: 17 },
+    { id: 'C6', type: 'lounge-natural', price: 19 },
   ],
 ]
 
 const tableTypeLabels = {
-  'window-natural': 'Window seating + natural light',
-  'window-dim': 'Window seating + dim light',
-  'booth-natural': 'Booth seating + natural light',
-  'booth-dim': 'Booth seating + dim light',
-  'window-booth-natural': 'Window booth + natural light',
-  'window-booth-dim': 'Window booth + dim light',
+  'window-booth-natural': 'Window booth + natural lighting',
+  'booth-dim': 'Booth seating + dim lighting',
+  'lounge-natural': 'Lounge seats + natural lighting',
+  'table-dim': 'Table seating + dim lighting',
   occupied: 'Unavailable',
 }
 
 const tableTypeDescriptions = {
-  'window-natural': 'Bright and airy, best for people who like sunlight and an open seat by the window.',
-  'window-dim': 'A window-side spot with softer lighting for calmer, lower-stimulation work sessions.',
-  'booth-natural': 'A more tucked-in booth with natural light, great for longer sessions with some privacy.',
-  'booth-dim': 'A cozy booth with low lighting for quiet work, reading, or reflective planning.',
-  'window-booth-natural': 'The most premium option: booth comfort, window seating, and full natural light.',
-  'window-booth-dim': 'Booth comfort by the window with softer lighting for an extra grounded atmosphere.',
+  'window-booth-natural': 'Booth comfort by the window with bright natural light for long, focused sessions.',
+  'booth-dim': 'A quieter booth with softer lighting for calm, low-stimulation work.',
+  'lounge-natural': 'Relaxed lounge seating with daylight, ideal for reading, planning, or gentle work.',
+  'table-dim': 'A classic cafe table with softer lighting for structured work without the glare.',
 }
 
 function App() {
@@ -486,24 +482,11 @@ function App() {
               <div className="reserve-map-card">
                 <div className="screen-banner">Tea bar and check-in counter</div>
                 <div className="legend" aria-label="Reservation legend">
-                  <span><i className="legend-dot window-natural"></i>Window + natural light</span>
-                  <span><i className="legend-dot window-dim"></i>Window + dim light</span>
-                  <span><i className="legend-dot booth-natural"></i>Booth + natural light</span>
-                  <span><i className="legend-dot booth-dim"></i>Booth + dim light</span>
-                  <span><i className="legend-dot window-booth-natural"></i>Window booth + natural light</span>
-                  <span><i className="legend-dot window-booth-dim"></i>Window booth + dim light</span>
+                  <span><i className="legend-dot window-booth-natural"></i>Window booth + natural lighting</span>
+                  <span><i className="legend-dot booth-dim"></i>Booth seating + dim lighting</span>
+                  <span><i className="legend-dot lounge-natural"></i>Lounge seats + natural lighting</span>
+                  <span><i className="legend-dot table-dim"></i>Table seating + dim lighting</span>
                   <span><i className="legend-dot occupied"></i>Unavailable</span>
-                </div>
-                <div className="seat-guide">
-                  {Object.entries(tableTypeLabels)
-                    .filter(([type]) => type !== 'occupied')
-                    .map(([type, label]) => (
-                      <article key={type} className="seat-guide-card">
-                        <div className={`seat-swatch type-${type}`}></div>
-                        <h3>{label}</h3>
-                        <p>{tableTypeDescriptions[type]}</p>
-                      </article>
-                    ))}
                 </div>
                 <div className="table-map" role="grid" aria-label="Reservation table map">
                   {reservationRows.map((row, rowIndex) => (
@@ -556,9 +539,8 @@ function App() {
                 {selectedTableData && reservationStep !== 'confirmed' && (
                   <div className="booking-card">
                     <h2>{selectedTableData.id} reserved for focus</h2>
-                    <p>
-                      {tableTypeLabels[selectedTableData.type]} for your next session. {tableTypeDescriptions[selectedTableData.type]}
-                    </p>
+                    <p>{tableTypeLabels[selectedTableData.type]} for your next session.</p>
+                    <p className="selection-note">More information: {tableTypeDescriptions[selectedTableData.type]}</p>
 
                     <div className="price-summary">
                       <div>
@@ -631,8 +613,10 @@ function App() {
                                   checked={bookingDetails.mode === mode.id}
                                   onChange={handleBookingChange}
                                 />
-                                <strong>{mode.title}</strong>
-                                <span>{mode.description}</span>
+                                <div>
+                                  <strong>{mode.title}</strong>
+                                  <span>{mode.description}</span>
+                                </div>
                               </label>
                             ))}
                           </div>
