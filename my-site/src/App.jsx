@@ -36,6 +36,21 @@ const teamMembers = [
   'Brooke',
 ]
 
+const welcomeGallery = [
+  {
+    src: 'https://images.unsplash.com/photo-1501339847302-ac426a4a7cbb?auto=format&fit=crop&w=1200&q=80',
+    alt: 'Warm cafe interior with tables and natural light',
+  },
+  {
+    src: 'https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?auto=format&fit=crop&w=1200&q=80',
+    alt: 'Coffee and cafe counter scene',
+  },
+  {
+    src: 'https://images.unsplash.com/photo-1511920170033-f8396924c348?auto=format&fit=crop&w=1200&q=80',
+    alt: 'Calm cafe table setup for working and studying',
+  },
+]
+
 const timeline = [
   {
     year: '2018',
@@ -78,6 +93,24 @@ const accountabilityStats = [
   },
 ]
 
+const accountabilityModes = [
+  {
+    id: 'low',
+    title: 'Low accountability',
+    description: 'Check-ins happen at the beginning and end of your session for a gentle structure boost.',
+  },
+  {
+    id: 'mild',
+    title: 'Mild accountability',
+    description: 'A check-in arrives once every hour so you can reset without breaking your workflow too often.',
+  },
+  {
+    id: 'intense',
+    title: 'Intense accountability',
+    description: 'A check-in arrives every 30 minutes for focused momentum and stronger follow-through.',
+  },
+]
+
 const menuSections = [
   {
     title: 'Signature Drinks',
@@ -110,38 +143,48 @@ const menuSections = [
 
 const reservationRows = [
   [
-    { id: 'A1', type: 'solo', price: 12 },
-    { id: 'A2', type: 'solo', price: 12 },
-    { id: 'A3', type: 'focus', price: 14 },
-    { id: 'A4', type: 'focus', price: 14 },
-    { id: 'A5', type: 'occupied', price: 14 },
-    { id: 'A6', type: 'duo', price: 20 },
+    { id: 'A1', type: 'window-natural', price: 20 },
+    { id: 'A2', type: 'window-dim', price: 18 },
+    { id: 'A3', type: 'booth-natural', price: 19 },
+    { id: 'A4', type: 'booth-dim', price: 17 },
+    { id: 'A5', type: 'occupied', price: 17 },
+    { id: 'A6', type: 'window-booth-natural', price: 22 },
   ],
   [
-    { id: 'B1', type: 'solo', price: 12 },
-    { id: 'B2', type: 'occupied', price: 12 },
-    { id: 'B3', type: 'focus', price: 14 },
-    { id: 'B4', type: 'focus', price: 14 },
-    { id: 'B5', type: 'duo', price: 20 },
-    { id: 'B6', type: 'duo', price: 20 },
+    { id: 'B1', type: 'window-booth-dim', price: 20 },
+    { id: 'B2', type: 'occupied', price: 18 },
+    { id: 'B3', type: 'window-natural', price: 20 },
+    { id: 'B4', type: 'booth-natural', price: 19 },
+    { id: 'B5', type: 'window-dim', price: 18 },
+    { id: 'B6', type: 'booth-dim', price: 17 },
   ],
   [
-    { id: 'C1', type: 'window', price: 16 },
-    { id: 'C2', type: 'window', price: 16 },
-    { id: 'C3', type: 'focus', price: 14 },
-    { id: 'C4', type: 'occupied', price: 14 },
-    { id: 'C5', type: 'duo', price: 20 },
-    { id: 'C6', type: 'community', price: 18 },
+    { id: 'C1', type: 'window-booth-natural', price: 22 },
+    { id: 'C2', type: 'window-booth-dim', price: 20 },
+    { id: 'C3', type: 'window-natural', price: 20 },
+    { id: 'C4', type: 'occupied', price: 18 },
+    { id: 'C5', type: 'booth-natural', price: 19 },
+    { id: 'C6', type: 'window-dim', price: 18 },
   ],
 ]
 
 const tableTypeLabels = {
-  solo: 'Solo nook',
-  focus: 'Focus desk',
-  duo: 'Duo table',
-  window: 'Window seat',
-  community: 'Community table',
+  'window-natural': 'Window seating + natural light',
+  'window-dim': 'Window seating + dim light',
+  'booth-natural': 'Booth seating + natural light',
+  'booth-dim': 'Booth seating + dim light',
+  'window-booth-natural': 'Window booth + natural light',
+  'window-booth-dim': 'Window booth + dim light',
   occupied: 'Unavailable',
+}
+
+const tableTypeDescriptions = {
+  'window-natural': 'Bright and airy, best for people who like sunlight and an open seat by the window.',
+  'window-dim': 'A window-side spot with softer lighting for calmer, lower-stimulation work sessions.',
+  'booth-natural': 'A more tucked-in booth with natural light, great for longer sessions with some privacy.',
+  'booth-dim': 'A cozy booth with low lighting for quiet work, reading, or reflective planning.',
+  'window-booth-natural': 'The most premium option: booth comfort, window seating, and full natural light.',
+  'window-booth-dim': 'Booth comfort by the window with softer lighting for an extra grounded atmosphere.',
 }
 
 function App() {
@@ -152,6 +195,8 @@ function App() {
     name: '',
     email: '',
     slot: '2:00 PM - 4:00 PM',
+    goal: '',
+    mode: 'mild',
     cardName: '',
     cardNumber: '',
     expiry: '',
@@ -211,6 +256,8 @@ function App() {
       name: '',
       email: '',
       slot: '2:00 PM - 4:00 PM',
+      goal: '',
+      mode: 'mild',
       cardName: '',
       cardNumber: '',
       expiry: '',
@@ -243,46 +290,81 @@ function App() {
       <main className="page-frame">
         {activePage === 'welcome' && (
           <section className="page page-welcome">
-            <div className="hero-copy">
-              <p className="section-kicker">Welcome page</p>
-              <h1>The accountability cafe for focused work and softer days.</h1>
-              <p className="lead">
-                Dempsey Cafe is designed for people who want structure without pressure. Come in for a planning session,
-                reserve a table for your next deep-work block, and stay for the drinks that make routines feel grounding.
-              </p>
-              <div className="hero-actions">
-                <button type="button" className="primary-button" onClick={() => navigateTo('reserve')}>
-                  Reserve a table
-                </button>
-                <button type="button" className="secondary-button" onClick={() => navigateTo('menu')}>
-                  Explore the menu
-                </button>
+            <div className="welcome-intro">
+              <div className="hero-copy">
+                <p className="section-kicker">Welcome page</p>
+                <h1>A calm cafe built to help you begin, stay focused, and follow through.</h1>
+                <p className="lead">
+                  Dempsey Cafe blends soft hospitality with gentle structure. Reserve a table, settle into a beautiful
+                  workspace, and let the room make it easier to show up for the work you keep meaning to start.
+                </p>
+                <div className="hero-actions">
+                  <button type="button" className="primary-button" onClick={() => navigateTo('reserve')}>
+                    Reserve a table
+                  </button>
+                  <button type="button" className="secondary-button" onClick={() => navigateTo('about')}>
+                    Meet the cafe
+                  </button>
+                </div>
               </div>
+
+              <aside className="welcome-panel">
+                <p className="panel-kicker">How it works</p>
+                <h2>Your focus ritual, simplified</h2>
+                <div className="welcome-steps">
+                  <article>
+                    <strong>1. Pick your seat</strong>
+                    <p>Choose a quiet nook, focus desk, or shared table that matches the kind of session you need.</p>
+                  </article>
+                  <article>
+                    <strong>2. Reserve your block</strong>
+                    <p>Pay to hold the space so your work time feels real, protected, and easier to honor.</p>
+                  </article>
+                  <article>
+                    <strong>3. Arrive and reset</strong>
+                    <p>Order something grounding, sit down with intention, and work beside people doing the same.</p>
+                  </article>
+                </div>
+              </aside>
+            </div>
+
+            <section className="welcome-gallery" aria-label="Cafe atmosphere photos">
+              {welcomeGallery.map((photo, index) => (
+                <article
+                  key={photo.src}
+                  className={index === 0 ? 'gallery-card gallery-card large' : 'gallery-card'}
+                >
+                  <img src={photo.src} alt={photo.alt} />
+                </article>
+              ))}
+            </section>
+
+            <div className="welcome-feature-band">
+              <article className="welcome-story-card">
+                <div>
+                  <p className="panel-kicker">The vibe</p>
+                  <h2>More supportive than a coffee shop, softer than a coworking space.</h2>
+                  <p>
+                    We designed Dempsey Cafe for students, founders, creatives, and anyone trying to build steadier
+                    habits in a room that feels warm instead of high-pressure.
+                  </p>
+                </div>
+                <img src={heroImg} alt="Illustration representing a calm cafe atmosphere" />
+              </article>
+
               <div className="hero-stats" aria-label="Cafe highlights">
                 <article>
                   <strong>42</strong>
                   <span>purpose-built seats</span>
                 </article>
                 <article>
-                  <strong>5</strong>
-                  <span>pages for your full story</span>
+                  <strong>4</strong>
+                  <span>simple steps to book and settle in</span>
                 </article>
                 <article>
-                  <strong>100%</strong>
-                  <span>calm, intentional atmosphere</span>
+                  <strong>Daily</strong>
+                  <span>space for deep work, planning, and reset time</span>
                 </article>
-              </div>
-            </div>
-
-            <div className="hero-visual">
-              <div className="focus-card">
-                <p>Today&apos;s rhythm</p>
-                <h2>Choose a seat. Choose a goal. Let the room hold you to it.</h2>
-                <img src={heroImg} alt="Illustration representing a calm cafe atmosphere" />
-              </div>
-              <div className="mini-panel">
-                <span>Best for</span>
-                <strong>Students, makers, writers, founders, and anyone rebuilding consistency.</strong>
               </div>
             </div>
           </section>
@@ -365,6 +447,10 @@ function App() {
               <p className="section-kicker">Cafe menu</p>
               <h1>Comforting drinks and clean, nourishing food for long focus sessions.</h1>
             </div>
+            <div className="menu-note">
+              <strong>Unlimited house drinks included</strong>
+              <p>Tea, coffee, and hot chocolate are unlimited with your reservation, so guests can settle in without watching the clock between refills.</p>
+            </div>
             <div className="menu-grid">
               {menuSections.map((section) => (
                 <section key={section.title} className="menu-card">
@@ -400,10 +486,24 @@ function App() {
               <div className="reserve-map-card">
                 <div className="screen-banner">Tea bar and check-in counter</div>
                 <div className="legend" aria-label="Reservation legend">
-                  <span><i className="legend-dot solo"></i>Solo nook</span>
-                  <span><i className="legend-dot focus"></i>Focus desk</span>
-                  <span><i className="legend-dot duo"></i>Duo table</span>
+                  <span><i className="legend-dot window-natural"></i>Window + natural light</span>
+                  <span><i className="legend-dot window-dim"></i>Window + dim light</span>
+                  <span><i className="legend-dot booth-natural"></i>Booth + natural light</span>
+                  <span><i className="legend-dot booth-dim"></i>Booth + dim light</span>
+                  <span><i className="legend-dot window-booth-natural"></i>Window booth + natural light</span>
+                  <span><i className="legend-dot window-booth-dim"></i>Window booth + dim light</span>
                   <span><i className="legend-dot occupied"></i>Unavailable</span>
+                </div>
+                <div className="seat-guide">
+                  {Object.entries(tableTypeLabels)
+                    .filter(([type]) => type !== 'occupied')
+                    .map(([type, label]) => (
+                      <article key={type} className="seat-guide-card">
+                        <div className={`seat-swatch type-${type}`}></div>
+                        <h3>{label}</h3>
+                        <p>{tableTypeDescriptions[type]}</p>
+                      </article>
+                    ))}
                 </div>
                 <div className="table-map" role="grid" aria-label="Reservation table map">
                   {reservationRows.map((row, rowIndex) => (
@@ -457,8 +557,7 @@ function App() {
                   <div className="booking-card">
                     <h2>{selectedTableData.id} reserved for focus</h2>
                     <p>
-                      {tableTypeLabels[selectedTableData.type]} for your next session. Reservation fees help us hold space
-                      and maintain the quiet-work environment.
+                      {tableTypeLabels[selectedTableData.type]} for your next session. {tableTypeDescriptions[selectedTableData.type]}
                     </p>
 
                     <div className="price-summary">
@@ -508,6 +607,36 @@ function App() {
                             <option>5:00 PM - 7:00 PM</option>
                           </select>
                         </label>
+                        <label>
+                          Session goal
+                          <textarea
+                            name="goal"
+                            value={bookingDetails.goal}
+                            onChange={handleBookingChange}
+                            placeholder="Finish my chemistry notes, draft two scholarship essays, and stay off my phone."
+                            rows="3"
+                            required
+                          />
+                        </label>
+                        <fieldset className="mode-fieldset">
+                          <legend>Accountability mode</legend>
+                          <p className="field-help">Choose how often you want check-ins during your session.</p>
+                          <div className="mode-options">
+                            {accountabilityModes.map((mode) => (
+                              <label key={mode.id} className={bookingDetails.mode === mode.id ? 'mode-option active' : 'mode-option'}>
+                                <input
+                                  type="radio"
+                                  name="mode"
+                                  value={mode.id}
+                                  checked={bookingDetails.mode === mode.id}
+                                  onChange={handleBookingChange}
+                                />
+                                <strong>{mode.title}</strong>
+                                <span>{mode.description}</span>
+                              </label>
+                            ))}
+                          </div>
+                        </fieldset>
 
                         {reservationStep === 'details' && (
                           <button type="submit" className="primary-button">
@@ -593,6 +722,9 @@ function App() {
                     <p>
                       {bookingDetails.name || 'Your'} seat at {selectedTableData.id} is booked for {bookingDetails.slot}.
                       A confirmation can be sent to {bookingDetails.email || 'your inbox'}.
+                    </p>
+                    <p className="confirmation-meta">
+                      Goal: {bookingDetails.goal || 'No goal entered.'} Mode: {accountabilityModes.find((mode) => mode.id === bookingDetails.mode)?.title}.
                     </p>
                     <button type="button" className="secondary-button" onClick={resetReservation}>
                       Book another table

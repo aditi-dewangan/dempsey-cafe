@@ -1,6 +1,43 @@
 .app-shell {
   min-height: 100vh;
   padding: 32px;
+  position: relative;
+  isolation: isolate;
+}
+
+.app-shell::before,
+.app-shell::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: -1;
+  opacity: 0.26;
+  background-repeat: no-repeat;
+}
+
+.app-shell::before {
+  background-image:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180' viewBox='0 0 180 180'%3E%3Cg fill='none' stroke='%2390a987' stroke-width='4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M48 73h52v27c0 16-11 28-26 28s-26-12-26-28V73Z'/%3E%3Cpath d='M100 79h14c10 0 18 8 18 18s-8 18-18 18h-8'/%3E%3Cpath d='M60 54c-7 9 6 12-1 21'/%3E%3Cpath d='M77 49c-7 9 6 12-1 21'/%3E%3Cpath d='M94 54c-7 9 6 12-1 21'/%3E%3C/g%3E%3C/svg%3E"),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140' viewBox='0 0 140 140'%3E%3Cg fill='none' stroke='%23b7c8b2' stroke-width='4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M34 57h42v20c0 13-9 24-21 24s-21-11-21-24V57Z'/%3E%3Cpath d='M76 61h10c8 0 14 6 14 14s-6 14-14 14h-6'/%3E%3Cpath d='M47 41c-5 7 4 10-1 16'/%3E%3Cpath d='M61 37c-5 7 4 10-1 16'/%3E%3C/g%3E%3C/svg%3E");
+  background-position:
+    left 2.5rem top 9rem,
+    right 4rem bottom 7rem;
+  background-size:
+    180px 180px,
+    140px 140px;
+}
+
+.app-shell::after {
+  background-image:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120' viewBox='0 0 120 120'%3E%3Cg fill='none' stroke='%23d2ddd0' stroke-width='4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M28 50h36v18c0 11-8 20-18 20s-18-9-18-20V50Z'/%3E%3Cpath d='M64 54h9c7 0 12 5 12 12s-5 12-12 12h-5'/%3E%3Cpath d='M40 36c-5 6 4 8-1 14'/%3E%3Cpath d='M52 32c-5 6 4 8-1 14'/%3E%3C/g%3E%3C/svg%3E"),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160' viewBox='0 0 160 160'%3E%3Cg fill='none' stroke='%23c4d3bf' stroke-width='4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M42 67h48v24c0 14-10 25-24 25s-24-11-24-25V67Z'/%3E%3Cpath d='M90 72h12c9 0 16 7 16 16s-7 16-16 16h-7'/%3E%3Cpath d='M55 49c-6 8 5 10-1 17'/%3E%3Cpath d='M71 44c-6 8 5 10-1 17'/%3E%3C/g%3E%3C/svg%3E");
+  background-position:
+    right 14rem top 12rem,
+    left 10rem bottom 4rem;
+  background-size:
+    120px 120px,
+    160px 160px;
 }
 
 .topbar {
@@ -88,9 +125,14 @@
 
 .page-welcome {
   display: grid;
-  grid-template-columns: 1.1fr 0.9fr;
-  gap: 36px;
-  align-items: center;
+  gap: 32px;
+}
+
+.welcome-intro {
+  display: grid;
+  grid-template-columns: minmax(0, 1.25fr) minmax(320px, 0.75fr);
+  gap: 28px;
+  align-items: stretch;
 }
 
 .hero-copy,
@@ -126,13 +168,8 @@
   color: var(--text-strong);
 }
 
-.hero-stats {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 16px;
-  margin-top: 30px;
-}
-
+.welcome-panel,
+.welcome-story-card,
 .hero-stats article,
 .info-card,
 .menu-card,
@@ -147,65 +184,113 @@
   box-shadow: var(--shadow-soft);
 }
 
+.welcome-panel {
+  padding: 28px;
+  border-radius: 30px;
+  display: grid;
+  align-content: start;
+  gap: 18px;
+}
+
+.panel-kicker {
+  margin: 0;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: var(--accent-deep);
+}
+
+.welcome-steps {
+  display: grid;
+  gap: 14px;
+}
+
+.welcome-steps article {
+  padding: 16px 0;
+  border-top: 1px solid rgba(100, 126, 89, 0.18);
+}
+
+.welcome-steps article:first-child {
+  border-top: 0;
+  padding-top: 0;
+}
+
+.welcome-steps strong {
+  display: block;
+  margin-bottom: 6px;
+  color: var(--text-strong);
+}
+
+.welcome-feature-band {
+  display: grid;
+  grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr);
+  gap: 22px;
+  align-items: stretch;
+}
+
+.welcome-gallery {
+  display: grid;
+  grid-template-columns: 1.3fr 0.85fr 0.85fr;
+  gap: 18px;
+}
+
+.gallery-card {
+  min-height: 220px;
+  overflow: hidden;
+  border-radius: 28px;
+  border: 1px solid rgba(123, 151, 116, 0.14);
+  background: rgba(236, 244, 232, 0.84);
+  box-shadow: var(--shadow-soft);
+}
+
+.gallery-card.large {
+  min-height: 280px;
+}
+
+.gallery-card img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.welcome-story-card {
+  padding: 30px;
+  border-radius: 32px;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(220px, 0.7fr);
+  gap: 22px;
+  align-items: center;
+}
+
+.welcome-story-card img {
+  width: 100%;
+  max-width: 280px;
+  justify-self: end;
+  filter: drop-shadow(0 16px 24px rgba(84, 101, 75, 0.18));
+}
+
+.hero-stats {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 16px;
+}
+
 .hero-stats article {
-  padding: 18px;
-  border-radius: 22px;
+  padding: 22px;
+  border-radius: 24px;
 }
 
 .hero-stats strong {
   display: block;
   font-family: var(--heading);
-  font-size: 1.7rem;
+  font-size: 1.9rem;
   color: var(--text-strong);
 }
 
 .hero-stats span {
   color: var(--text-muted);
-}
-
-.hero-visual {
-  display: grid;
-  gap: 18px;
-}
-
-.focus-card {
-  position: relative;
-  overflow: hidden;
-  padding: 28px;
-  border-radius: 32px;
-  background: linear-gradient(160deg, rgba(199, 220, 190, 0.98), rgba(233, 240, 226, 0.94));
-  min-height: 420px;
-}
-
-.focus-card p {
-  margin-bottom: 8px;
-  color: var(--text-muted);
-}
-
-.focus-card h2 {
-  max-width: 16rem;
-}
-
-.focus-card img {
-  position: absolute;
-  right: 10px;
-  bottom: 0;
-  width: min(78%, 360px);
-  filter: drop-shadow(0 16px 24px rgba(84, 101, 75, 0.22));
-}
-
-.mini-panel {
-  padding: 18px 20px;
-  border-radius: 22px;
-}
-
-.mini-panel span {
-  display: block;
-  font-size: 0.8rem;
-  text-transform: uppercase;
-  letter-spacing: 0.18em;
-  color: var(--accent-deep);
-  margin-bottom: 6px;
 }
 
 .pillar-grid,
@@ -538,7 +623,11 @@
   .reserve-layout,
   .menu-grid,
   .pillar-grid,
-  .stats-band {
+  .stats-band,
+  .welcome-intro,
+  .welcome-feature-band,
+  .welcome-gallery,
+  .welcome-story-card {
     grid-template-columns: 1fr;
   }
 
@@ -562,6 +651,17 @@
 @media (max-width: 720px) {
   .app-shell {
     padding: 16px;
+  }
+
+  .app-shell::before,
+  .app-shell::after {
+    opacity: 0.14;
+    background-size:
+      110px 110px,
+      90px 90px;
+    background-position:
+      left -1rem top 9rem,
+      right -1rem bottom 8rem;
   }
 
   .topbar,
