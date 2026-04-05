@@ -162,6 +162,42 @@ const accountabilityModes = [
   },
 ]
 
+const passTypes = [
+  {
+    id: 'hourly',
+    title: 'Hourly pass',
+    price: 5,
+    description: 'Choose one or more hourly reservation blocks at $5 per hour.',
+  },
+  {
+    id: 'day',
+    title: 'Day pass',
+    price: 20,
+    description: 'One flat $20 pass for four hours or more, with up to 3 area changes during your stay.',
+  },
+  {
+    id: 'monthly',
+    title: 'Monthly membership',
+    price: 150,
+    description: 'Pay once for the month and receive a unique code you can reuse to waive future reservation payments.',
+  },
+]
+
+const hourlySlotOptions = [
+  '9:00 AM - 10:00 AM',
+  '10:00 AM - 11:00 AM',
+  '11:00 AM - 12:00 PM',
+  '12:00 PM - 1:00 PM',
+  '1:00 PM - 2:00 PM',
+  '2:00 PM - 3:00 PM',
+  '3:00 PM - 4:00 PM',
+  '4:00 PM - 5:00 PM',
+  '5:00 PM - 6:00 PM',
+  '6:00 PM - 7:00 PM',
+]
+
+const dayPassAreaChanges = ['0 changes', '1 change', '2 changes', '3 changes']
+
 const workshopOptions = [
   {
     title: 'Thursday Skill Workshops',
@@ -179,12 +215,7 @@ const workshopOptions = [
   },
 ]
 
-const tutorSubjects = [
-  'Reading',
-  'History',
-  'Math',
-  'Science',
-]
+const tutorSubjects = ['Reading', 'History', 'Math', 'Science']
 
 const hiringRoles = [
   {
@@ -245,28 +276,28 @@ const menuSections = [
 
 const reservationRows = [
   [
-    { id: 'A1', type: 'window-booth-natural', price: 22 },
-    { id: 'A2', type: 'booth-dim', price: 17 },
-    { id: 'A3', type: 'lounge-natural', price: 19 },
-    { id: 'A4', type: 'table-dim', price: 16 },
-    { id: 'A5', type: 'occupied', price: 16 },
-    { id: 'A6', type: 'window-booth-natural', price: 22 },
+    { id: 'A1', type: 'window-booth-natural' },
+    { id: 'A2', type: 'booth-dim' },
+    { id: 'A3', type: 'lounge-natural' },
+    { id: 'A4', type: 'table-dim' },
+    { id: 'A5', type: 'occupied' },
+    { id: 'A6', type: 'window-booth-natural' },
   ],
   [
-    { id: 'B1', type: 'booth-dim', price: 17 },
-    { id: 'B2', type: 'occupied', price: 16 },
-    { id: 'B3', type: 'lounge-natural', price: 19 },
-    { id: 'B4', type: 'table-dim', price: 16 },
-    { id: 'B5', type: 'window-booth-natural', price: 22 },
-    { id: 'B6', type: 'booth-dim', price: 17 },
+    { id: 'B1', type: 'booth-dim' },
+    { id: 'B2', type: 'occupied' },
+    { id: 'B3', type: 'lounge-natural' },
+    { id: 'B4', type: 'table-dim' },
+    { id: 'B5', type: 'window-booth-natural' },
+    { id: 'B6', type: 'booth-dim' },
   ],
   [
-    { id: 'C1', type: 'lounge-natural', price: 19 },
-    { id: 'C2', type: 'table-dim', price: 16 },
-    { id: 'C3', type: 'window-booth-natural', price: 22 },
-    { id: 'C4', type: 'occupied', price: 16 },
-    { id: 'C5', type: 'booth-dim', price: 17 },
-    { id: 'C6', type: 'lounge-natural', price: 19 },
+    { id: 'C1', type: 'lounge-natural' },
+    { id: 'C2', type: 'table-dim' },
+    { id: 'C3', type: 'window-booth-natural' },
+    { id: 'C4', type: 'occupied' },
+    { id: 'C5', type: 'booth-dim' },
+    { id: 'C6', type: 'lounge-natural' },
   ],
 ]
 
@@ -285,14 +316,21 @@ const tableTypeDescriptions = {
   'table-dim': 'A classic cafe table with softer lighting for structured work without the glare.',
 }
 
+const createMembershipCode = () => `DMP-${Math.random().toString(36).slice(2, 8).toUpperCase()}`
+
 function App() {
   const [activePage, setActivePage] = useState('welcome')
   const [selectedTable, setSelectedTable] = useState(null)
   const [reservationStep, setReservationStep] = useState('select')
+  const [memberCode, setMemberCode] = useState('')
   const [bookingDetails, setBookingDetails] = useState({
     name: '',
     email: '',
+    passType: 'hourly',
     slot: '2:00 PM - 4:00 PM',
+    hourlySlots: ['2:00 PM - 3:00 PM'],
+    areaChanges: '0 changes',
+    membershipCode: '',
     goal: '',
     mode: 'mild',
     cardName: '',
@@ -309,8 +347,21 @@ function App() {
   const [workshopSubmitted, setWorkshopSubmitted] = useState(false)
 
   const selectedTableData = reservationRows.flat().find((table) => table.id === selectedTable)
-  const reservationFee = selectedTableData?.price ?? 0
-  const serviceFee = selectedTableData ? 2 : 0
+  const usingMembershipCode =
+    bookingDetails.passType === 'monthly' &&
+    bookingDetails.membershipCode.trim() !== '' &&
+    bookingDetails.membershipCode.trim() === memberCode
+
+  const reservationFee =
+    bookingDetails.passType === 'hourly'
+      ? bookingDetails.hourlySlots.length * 5
+      : bookingDetails.passType === 'day'
+        ? 20
+        : usingMembershipCode
+          ? 0
+          : 150
+
+  const serviceFee = bookingDetails.passType === 'monthly' && usingMembershipCode ? 0 : selectedTableData ? 2 : 0
   const totalFee = reservationFee + serviceFee
 
   const navigateTo = (pageId) => {
@@ -333,6 +384,17 @@ function App() {
     setBookingDetails((current) => ({
       ...current,
       [name]: value,
+      ...(name === 'passType' && value !== 'hourly' ? { hourlySlots: [] } : {}),
+      ...(name === 'passType' && value !== 'day' ? { areaChanges: '0 changes' } : {}),
+    }))
+  }
+
+  const toggleHourlySlot = (slot) => {
+    setBookingDetails((current) => ({
+      ...current,
+      hourlySlots: current.hourlySlots.includes(slot)
+        ? current.hourlySlots.filter((item) => item !== slot)
+        : [...current.hourlySlots, slot],
     }))
   }
 
@@ -356,10 +418,18 @@ function App() {
       return
     }
 
+    if (bookingDetails.passType === 'hourly' && bookingDetails.hourlySlots.length === 0) {
+      return
+    }
+
     setReservationStep('payment')
   }
 
   const confirmReservation = () => {
+    if (bookingDetails.passType === 'monthly' && !usingMembershipCode) {
+      setMemberCode(createMembershipCode())
+    }
+
     setReservationStep('confirmed')
   }
 
@@ -369,7 +439,11 @@ function App() {
     setBookingDetails({
       name: '',
       email: '',
+      passType: 'hourly',
       slot: '2:00 PM - 4:00 PM',
+      hourlySlots: ['2:00 PM - 3:00 PM'],
+      areaChanges: '0 changes',
+      membershipCode: memberCode,
       goal: '',
       mode: 'mild',
       cardName: '',
@@ -713,10 +787,10 @@ function App() {
           <section className="page reserve-page">
             <div className="page-heading">
               <p className="section-kicker">Reserve a table</p>
-              <h1>Choose your space, set your goal, and reserve accountability support.</h1>
+              <h1>Choose your pass, your space, and your accountability setup.</h1>
               <p className="lead">
-                Guests can reserve accountability service, seating, and study space through the website. Study rooms seat
-                6 each and can combine into a 24-person conference room.
+                Hourly passes are $5 per selected hour, day passes are $20 with up to 3 area changes, and monthly members
+                can use their unique code to waive future reservation payments.
               </p>
             </div>
 
@@ -750,7 +824,7 @@ function App() {
                             aria-pressed={isSelected}
                           >
                             <span>{table.id}</span>
-                            <small>${table.price}</small>
+                            <small>{table.type === 'occupied' ? 'Taken' : 'Open'}</small>
                           </button>
                         )
                       })}
@@ -770,7 +844,7 @@ function App() {
                 {!selectedTableData && (
                   <div className="booking-card">
                     <h2>Pick a table to begin</h2>
-                    <p>Select any available seat to see pricing, choose your goals, and move into the payment step.</p>
+                    <p>Select any available seat to choose your pass, set your goals, and move into the payment step.</p>
                   </div>
                 )}
 
@@ -782,11 +856,11 @@ function App() {
 
                     <div className="price-summary">
                       <div>
-                        <span>Seat fee</span>
+                        <span>Pass cost</span>
                         <strong>${reservationFee}</strong>
                       </div>
                       <div>
-                        <span>Service fee</span>
+                        <span>Reservation fee</span>
                         <strong>${serviceFee}</strong>
                       </div>
                       <div className="total">
@@ -797,6 +871,28 @@ function App() {
 
                     {(reservationStep === 'details' || reservationStep === 'payment') && (
                       <form className="booking-form" onSubmit={handleReservationSubmit}>
+                        <fieldset className="mode-fieldset">
+                          <legend>Choose your pass</legend>
+                          <p className="field-help">Pricing updates live based on the pass you choose below.</p>
+                          <div className="mode-options pass-options">
+                            {passTypes.map((pass) => (
+                              <label key={pass.id} className={bookingDetails.passType === pass.id ? 'mode-option active' : 'mode-option'}>
+                                <input
+                                  type="radio"
+                                  name="passType"
+                                  value={pass.id}
+                                  checked={bookingDetails.passType === pass.id}
+                                  onChange={handleBookingChange}
+                                />
+                                <div>
+                                  <strong>{pass.title}</strong>
+                                  <span>{pass.description}</span>
+                                </div>
+                              </label>
+                            ))}
+                          </div>
+                        </fieldset>
+
                         <label>
                           Full name
                           <input
@@ -818,15 +914,52 @@ function App() {
                             required
                           />
                         </label>
-                        <label>
-                          Reservation slot
-                          <select name="slot" value={bookingDetails.slot} onChange={handleBookingChange}>
-                            <option>9:00 AM - 11:00 AM</option>
-                            <option>12:00 PM - 2:00 PM</option>
-                            <option>2:00 PM - 4:00 PM</option>
-                            <option>5:00 PM - 7:00 PM</option>
-                          </select>
-                        </label>
+
+                        {bookingDetails.passType === 'hourly' && (
+                          <fieldset className="mode-fieldset">
+                            <legend>Hourly reservation slots</legend>
+                            <p className="field-help">Select one or more hour blocks. Each selected slot adds $5.</p>
+                            <div className="slot-grid">
+                              {hourlySlotOptions.map((slot) => (
+                                <label
+                                  key={slot}
+                                  className={bookingDetails.hourlySlots.includes(slot) ? 'slot-option active' : 'slot-option'}
+                                >
+                                  <input
+                                    type="checkbox"
+                                    checked={bookingDetails.hourlySlots.includes(slot)}
+                                    onChange={() => toggleHourlySlot(slot)}
+                                  />
+                                  <span>{slot}</span>
+                                </label>
+                              ))}
+                            </div>
+                          </fieldset>
+                        )}
+
+                        {bookingDetails.passType === 'day' && (
+                          <label>
+                            Area changes during your day pass
+                            <select name="areaChanges" value={bookingDetails.areaChanges} onChange={handleBookingChange}>
+                              {dayPassAreaChanges.map((option) => (
+                                <option key={option}>{option}</option>
+                              ))}
+                            </select>
+                          </label>
+                        )}
+
+                        {bookingDetails.passType === 'monthly' && (
+                          <label>
+                            Monthly member code
+                            <input
+                              name="membershipCode"
+                              value={bookingDetails.membershipCode}
+                              onChange={handleBookingChange}
+                              placeholder={memberCode || 'Enter your membership code or buy the month below'}
+                            />
+                          </label>
+                        )}
+
                         <label>
                           Session goal
                           <textarea
@@ -860,6 +993,14 @@ function App() {
                           </div>
                         </fieldset>
 
+                        {bookingDetails.passType === 'monthly' && memberCode && (
+                          <p className="selection-note">Saved member code on file: {memberCode}</p>
+                        )}
+
+                        {bookingDetails.passType === 'monthly' && usingMembershipCode && (
+                          <p className="selection-note">Valid membership code detected. This reservation payment will be waived.</p>
+                        )}
+
                         {reservationStep === 'details' && (
                           <button type="submit" className="primary-button">
                             Continue to payment
@@ -877,64 +1018,71 @@ function App() {
                         }}
                       >
                         <p>Payment details</p>
-                        <h3>Secure your reservation</h3>
-                        <label>
-                          Name on card
-                          <input
-                            name="cardName"
-                            value={bookingDetails.cardName}
-                            onChange={handleBookingChange}
-                            placeholder="Jordan Rivera"
-                            required
-                          />
-                        </label>
-                        <label>
-                          Card number
-                          <input
-                            name="cardNumber"
-                            inputMode="numeric"
-                            value={bookingDetails.cardNumber}
-                            onChange={handleBookingChange}
-                            placeholder="4242 4242 4242 4242"
-                            required
-                          />
-                        </label>
-                        <div className="payment-row">
-                          <label>
-                            Expiry
-                            <input
-                              name="expiry"
-                              value={bookingDetails.expiry}
-                              onChange={handleBookingChange}
-                              placeholder="08/28"
-                              required
-                            />
-                          </label>
-                          <label>
-                            CVC
-                            <input
-                              name="cvc"
-                              inputMode="numeric"
-                              value={bookingDetails.cvc}
-                              onChange={handleBookingChange}
-                              placeholder="314"
-                              required
-                            />
-                          </label>
-                        </div>
-                        <label>
-                          Billing ZIP code
-                          <input
-                            name="zip"
-                            inputMode="numeric"
-                            value={bookingDetails.zip}
-                            onChange={handleBookingChange}
-                            placeholder="94107"
-                            required
-                          />
-                        </label>
+                        <h3>{bookingDetails.passType === 'monthly' ? 'Secure your membership or validate your code' : 'Secure your reservation'}</h3>
+                        {!usingMembershipCode && (
+                          <>
+                            <label>
+                              Name on card
+                              <input
+                                name="cardName"
+                                value={bookingDetails.cardName}
+                                onChange={handleBookingChange}
+                                placeholder="Jordan Rivera"
+                                required
+                              />
+                            </label>
+                            <label>
+                              Card number
+                              <input
+                                name="cardNumber"
+                                inputMode="numeric"
+                                value={bookingDetails.cardNumber}
+                                onChange={handleBookingChange}
+                                placeholder="4242 4242 4242 4242"
+                                required
+                              />
+                            </label>
+                            <div className="payment-row">
+                              <label>
+                                Expiry
+                                <input
+                                  name="expiry"
+                                  value={bookingDetails.expiry}
+                                  onChange={handleBookingChange}
+                                  placeholder="08/28"
+                                  required
+                                />
+                              </label>
+                              <label>
+                                CVC
+                                <input
+                                  name="cvc"
+                                  inputMode="numeric"
+                                  value={bookingDetails.cvc}
+                                  onChange={handleBookingChange}
+                                  placeholder="314"
+                                  required
+                                />
+                              </label>
+                            </div>
+                            <label>
+                              Billing ZIP code
+                              <input
+                                name="zip"
+                                inputMode="numeric"
+                                value={bookingDetails.zip}
+                                onChange={handleBookingChange}
+                                placeholder="94107"
+                                required
+                              />
+                            </label>
+                          </>
+                        )}
+                        {usingMembershipCode && (
+                          <p className="selection-note">Your monthly code is active, so this reservation is waived and no payment details are needed.</p>
+                        )}
                         <button type="submit" className="primary-button">
-                          Pay ${totalFee} and confirm
+                          {usingMembershipCode ? 'Confirm waived reservation' : `Pay $${totalFee} and confirm`}
                         </button>
                       </form>
                     )}
@@ -945,13 +1093,24 @@ function App() {
                   <div className="booking-card success-card">
                     <h2>Reservation confirmed</h2>
                     <p>
-                      {bookingDetails.name || 'Your'} seat at {selectedTableData.id} is booked for {bookingDetails.slot}.
+                      {bookingDetails.name || 'Your'} seat at {selectedTableData.id} is booked for{' '}
+                      {bookingDetails.passType === 'hourly'
+                        ? bookingDetails.hourlySlots.join(', ')
+                        : bookingDetails.passType === 'day'
+                          ? 'your day pass session'
+                          : 'your monthly member visit'}.
                       A confirmation can be sent to {bookingDetails.email || 'your inbox'}.
                     </p>
                     <p className="confirmation-meta">
                       Goal: {bookingDetails.goal || 'No goal entered.'} Mode:{' '}
                       {accountabilityModes.find((mode) => mode.id === bookingDetails.mode)?.title}.
                     </p>
+                    {bookingDetails.passType === 'day' && (
+                      <p className="confirmation-meta">Area changes selected: {bookingDetails.areaChanges}.</p>
+                    )}
+                    {bookingDetails.passType === 'monthly' && !usingMembershipCode && memberCode && (
+                      <p className="confirmation-meta">Monthly membership activated. Your reusable member code is {memberCode}.</p>
+                    )}
                     <button type="button" className="secondary-button" onClick={resetReservation}>
                       Book another table
                     </button>
