@@ -255,6 +255,200 @@
   display: block;
 }
 
+.blueprint-card {
+  display: grid;
+  grid-template-columns: minmax(0, 0.75fr) minmax(320px, 1.25fr);
+  gap: 24px;
+  align-items: center;
+  padding: 30px;
+  border-radius: 32px;
+  border: 1px solid rgba(123, 151, 116, 0.2);
+  background: #eef6e9;
+  box-shadow: none;
+}
+
+.blueprint-copy h2 {
+  margin-bottom: 12px;
+}
+
+.blueprint-grid {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(30, minmax(0, 1fr));
+  grid-template-rows: repeat(30, minmax(0, 1fr));
+  aspect-ratio: 1;
+  width: 100%;
+  min-height: 420px;
+  overflow: hidden;
+  border: 3px solid rgba(73, 92, 64, 0.72);
+  border-radius: 24px;
+  background: #fbfcf7;
+}
+
+.blueprint-cell {
+  border-right: 1px solid rgba(85, 108, 75, 0.08);
+  border-bottom: 1px solid rgba(85, 108, 75, 0.08);
+}
+
+.window-wall {
+  z-index: 3;
+  display: grid;
+  place-items: center;
+  background: #d7ecee;
+  color: #416f72;
+  font-size: 0.66rem;
+  font-weight: 800;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  border: 1px solid rgba(63, 111, 117, 0.28);
+}
+
+.window-wall.bottom {
+  grid-column: 1 / 31;
+  grid-row: 30 / 31;
+}
+
+.blueprint-block {
+  z-index: 2;
+  position: relative;
+  display: grid;
+  place-items: center;
+  padding: 8px;
+  border-radius: 16px;
+  border: 2px solid rgba(72, 50, 97, 0.28);
+  color: #2c2332;
+  text-align: center;
+  font-size: clamp(0.56rem, 1vw, 0.78rem);
+  font-weight: 700;
+  line-height: 1.15;
+  transform: none;
+  box-shadow: none;
+}
+
+.blueprint-block::before,
+.blueprint-block::after {
+  content: none;
+}
+
+.blueprint-block span {
+  position: relative;
+  z-index: 1;
+}
+
+.blueprint-block.kitchen {
+  grid-column: 21 / 30;
+  grid-row: 2 / 8;
+  background: #6f7d64;
+  color: #fbfff6;
+  border-color: rgba(53, 67, 48, 0.52);
+  letter-spacing: 0.2em;
+}
+
+.blueprint-block.type-window-booth-natural {
+  background: #d9c2f4;
+  border-color: rgba(115, 72, 164, 0.34);
+}
+
+.blueprint-block.type-booth-dim {
+  background: #b78bdd;
+  border-color: rgba(91, 55, 136, 0.34);
+  color: #fffaff;
+}
+
+.blueprint-block.type-lounge-natural {
+  background: #cfa6f3;
+  border-color: rgba(103, 61, 153, 0.34);
+}
+
+.blueprint-block.type-table-dim {
+  background: #9f73c7;
+  border-color: rgba(82, 49, 124, 0.36);
+  color: #fff9ff;
+}
+
+.blueprint-block.type-accountability {
+  background: #e7f1df;
+  border-color: rgba(85, 108, 75, 0.34);
+  color: var(--text-strong);
+}
+
+.blueprint-block.type-study-room {
+  background: #edf3e8;
+  border-color: rgba(85, 108, 75, 0.32);
+  border-radius: 12px;
+  font-size: 0.62rem;
+}
+
+.blueprint-block.type-couch-lounge,
+.blueprint-block.type-couch,
+.blueprint-block.type-couch-facing,
+.blueprint-block.type-couch-half-left,
+.blueprint-block.type-couch-half-right {
+  background: #b879df;
+  border-color: rgba(83, 45, 128, 0.4);
+  color: #fff9ff;
+}
+
+.blueprint-block.type-couch,
+.blueprint-block.type-couch-lounge {
+  border-radius: 999px 999px 24px 24px;
+}
+
+.blueprint-block.type-couch-facing {
+  border-radius: 26px 26px 999px 999px;
+}
+
+.blueprint-block.type-couch-half-left {
+  border-radius: 999px 20px 20px 999px;
+}
+
+.blueprint-block.type-couch-half-right {
+  border-radius: 20px 999px 999px 20px;
+}
+
+.blueprint-block.type-small-table {
+  background: #bd8954;
+  border-color: rgba(115, 77, 44, 0.34);
+  border-radius: 50%;
+  font-size: 0.5rem;
+  color: #fffaf4;
+}
+
+.blueprint-block.type-door {
+  background: #fbfcf7;
+  border: 2px dashed rgba(85, 108, 75, 0.56);
+  border-radius: 999px 999px 8px 8px;
+  color: var(--text-strong);
+  font-size: 0.56rem;
+}
+
+.blueprint-block.type-big-table {
+  background: #8f65bd;
+  border-color: rgba(75, 46, 120, 0.38);
+  color: #fff9ff;
+  border-radius: 999px;
+}
+
+.blueprint-block.type-zoom-pod {
+  background: #f4f7ef;
+  border-color: rgba(85, 108, 75, 0.32);
+  border-radius: 50%;
+  font-size: 0.56rem;
+}
+
+.blueprint-block.type-service {
+  background: #f2e6d5;
+  border-color: rgba(116, 103, 86, 0.32);
+  border-radius: 12px;
+  font-size: 0.58rem;
+}
+
+.blueprint-block.type-bar {
+  background: #d2a06b;
+  border-color: rgba(115, 77, 44, 0.36);
+  border-radius: 12px 30px 30px 12px;
+}
+
 .welcome-story-card {
   padding: 30px;
   border-radius: 32px;
@@ -306,6 +500,15 @@
 .workshop-grid,
 .pricing-grid {
   grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.split-grid > .pricing-grid {
+  grid-template-columns: 1fr;
+  margin-top: 0;
+}
+
+.pricing-grid .menu-card h2 {
+  font-size: clamp(1.2rem, 1.6vw, 1.65rem);
 }
 
 .split-grid {
@@ -527,24 +730,36 @@
   display: inline-block;
 }
 
-.legend-dot.window-booth-natural,
-.table-seat.type-window-booth-natural {
-  background: #d4b6ff;
+.legend-dot.table-natural,
+.table-seat.type-table-natural {
+  background: #dcc4ff;
 }
 
-.legend-dot.booth-dim,
-.table-seat.type-booth-dim {
-  background: #ab7ae4;
+.legend-dot.study-room,
+.table-seat.type-study-room {
+  background: #c8a5f0;
 }
 
-.legend-dot.lounge-natural,
-.table-seat.type-lounge-natural {
-  background: #c596ff;
+.legend-dot.couch-natural,
+.table-seat.type-couch-natural {
+  background: #b98ae8;
 }
 
-.legend-dot.table-dim,
-.table-seat.type-table-dim {
-  background: #8a5ec8;
+.legend-dot.couch-dim,
+.table-seat.type-couch-dim {
+  background: #9360c8;
+  color: #fff9ff;
+}
+
+.legend-dot.window-bar,
+.table-seat.type-window-bar {
+  background: #eadcff;
+}
+
+.legend-dot.bar-seat,
+.table-seat.type-bar-seat {
+  background: #a875d7;
+  color: #fff9ff;
 }
 
 .legend-dot.occupied,
@@ -559,7 +774,7 @@
 
 .table-row {
   display: grid;
-  grid-template-columns: repeat(6, minmax(0, 1fr));
+  grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: 14px;
 }
 
@@ -788,6 +1003,7 @@
   .welcome-feature-band,
   .welcome-gallery,
   .welcome-story-card,
+  .blueprint-card,
   .mode-options,
   .systems-grid,
   .workshop-grid,
@@ -795,6 +1011,10 @@
   .pricing-grid,
   .slot-grid {
     grid-template-columns: 1fr;
+  }
+
+  .blueprint-grid {
+    min-height: 320px;
   }
 
   .team-grid .team-card {

@@ -276,45 +276,154 @@ const menuSections = [
 
 const reservationRows = [
   [
-    { id: 'A1', type: 'window-booth-natural' },
-    { id: 'A2', type: 'booth-dim' },
-    { id: 'A3', type: 'lounge-natural' },
-    { id: 'A4', type: 'table-dim' },
-    { id: 'A5', type: 'occupied' },
-    { id: 'A6', type: 'window-booth-natural' },
+    { id: 'T1', type: 'table-natural' },
+    { id: 'T2', type: 'table-natural' },
+    { id: 'T3', type: 'table-natural' },
+    { id: 'T4', type: 'table-natural' },
   ],
   [
-    { id: 'B1', type: 'booth-dim' },
-    { id: 'B2', type: 'occupied' },
-    { id: 'B3', type: 'lounge-natural' },
-    { id: 'B4', type: 'table-dim' },
-    { id: 'B5', type: 'window-booth-natural' },
-    { id: 'B6', type: 'booth-dim' },
+    { id: 'SR1', type: 'study-room' },
+    { id: 'SR2', type: 'study-room' },
+    { id: 'SR3', type: 'study-room' },
+    { id: 'SR4', type: 'study-room' },
   ],
   [
-    { id: 'C1', type: 'lounge-natural' },
-    { id: 'C2', type: 'table-dim' },
-    { id: 'C3', type: 'window-booth-natural' },
-    { id: 'C4', type: 'occupied' },
-    { id: 'C5', type: 'booth-dim' },
-    { id: 'C6', type: 'lounge-natural' },
+    { id: 'C1', type: 'couch-natural' },
+    { id: 'C2', type: 'couch-natural' },
+    { id: 'C3', type: 'couch-dim' },
+    { id: 'C4', type: 'couch-dim' },
+  ],
+  [
+    { id: 'WB1', type: 'window-bar' },
+    { id: 'WB2', type: 'window-bar' },
+    { id: 'WB3', type: 'window-bar' },
+    { id: 'WB4', type: 'window-bar' },
+  ],
+  [
+    { id: 'B1', type: 'bar-seat' },
+    { id: 'B2', type: 'bar-seat' },
+    { id: 'B3', type: 'bar-seat' },
+    { id: 'B4', type: 'bar-seat' },
   ],
 ]
 
 const tableTypeLabels = {
-  'window-booth-natural': 'Window booth + natural lighting',
-  'booth-dim': 'Booth seating + dim lighting',
-  'lounge-natural': 'Lounge seats + natural lighting',
-  'table-dim': 'Table seating + dim lighting',
+  'table-natural': 'Table seating + natural lighting',
+  'study-room': 'Private study room',
+  'couch-natural': 'Couch seating + natural lighting',
+  'couch-dim': 'Couch seating + dim lighting',
+  'window-bar': 'Window bar seating',
+  'bar-seat': 'Bar seating',
   occupied: 'Unavailable',
 }
 
 const tableTypeDescriptions = {
-  'window-booth-natural': 'Booth comfort by the window with bright natural light for long, focused sessions.',
-  'booth-dim': 'A quieter booth with softer lighting for calm, low-stimulation work.',
-  'lounge-natural': 'Relaxed lounge seating with daylight, ideal for reading, planning, or gentle work.',
-  'table-dim': 'A classic cafe table with softer lighting for structured work without the glare.',
+  'table-natural': 'A shared work table near the brighter side of the cafe for focused solo or group studying.',
+  'study-room': 'A reservable room for quieter group work, tutoring, or project sessions with fewer distractions.',
+  'couch-natural': 'A softer lounge-style couch spot with natural light, ideal for reading, planning, or relaxed work.',
+  'couch-dim': 'A calmer couch spot with lower lighting for low-stimulation studying and decompression work.',
+  'window-bar': 'A bar-style seat along the window edge for solo work with the clearest natural-light view.',
+  'bar-seat': 'A seat at the cafe bar and counter area for quick work sessions near the coffee station.',
 }
+
+const blueprintAreas = [
+  {
+    label: 'Accountability Space',
+    type: 'accountability',
+    column: '2 / 12',
+    row: '2 / 10',
+  },
+  {
+    label: 'Study Rooms',
+    type: 'study-room',
+    column: '2 / 8',
+    row: '10 / 18',
+  },
+  {
+    label: 'Zoom Pod',
+    type: 'zoom-pod',
+    column: '2 / 5',
+    row: '19 / 22',
+  },
+  {
+    label: 'Zoom Pod',
+    type: 'zoom-pod',
+    column: '5 / 8',
+    row: '19 / 22',
+  },
+  {
+    label: 'Storage',
+    type: 'service',
+    column: '13 / 17',
+    row: '2 / 8',
+  },
+  {
+    label: 'Restroom',
+    type: 'service',
+    column: '17 / 21',
+    row: '2 / 5',
+  },
+  {
+    label: 'Bar + Counter',
+    type: 'bar',
+    column: '21 / 30',
+    row: '9 / 14',
+  },
+  {
+    label: 'Couch',
+    type: 'couch-half-left',
+    column: '20 / 24',
+    row: '15 / 21',
+  },
+  {
+    label: 'Small Table',
+    type: 'small-table',
+    column: '24 / 26',
+    row: '17 / 19',
+  },
+  {
+    label: 'Couch',
+    type: 'couch-half-right',
+    column: '26 / 30',
+    row: '15 / 21',
+  },
+  {
+    label: 'Couch',
+    type: 'couch-half-left',
+    column: '20 / 24',
+    row: '21 / 27',
+  },
+  {
+    label: 'Small Table',
+    type: 'small-table',
+    column: '24 / 26',
+    row: '23 / 25',
+  },
+  {
+    label: 'Couch',
+    type: 'couch-half-right',
+    column: '26 / 30',
+    row: '21 / 27',
+  },
+  {
+    label: 'Big Table',
+    type: 'big-table',
+    column: '2 / 14',
+    row: '24 / 28',
+  },
+  {
+    label: 'Door',
+    type: 'door',
+    column: '17 / 19',
+    row: '28 / 30',
+  },
+  {
+    label: 'Window Bar Style Seating',
+    type: 'window-booth-natural',
+    column: '20 / 30',
+    row: '28 / 30',
+  },
+]
 
 const createMembershipCode = () => `DMP-${Math.random().toString(36).slice(2, 8).toUpperCase()}`
 
@@ -526,6 +635,33 @@ function App() {
                   <img src={photo.src} alt={photo.alt} />
                 </article>
               ))}
+            </section>
+
+            <section className="blueprint-card" aria-label="Cafe floor blueprint">
+              <div className="blueprint-copy">
+                <p className="panel-kicker">Blueprint concept</p>
+                <h2>30 x 30 floor plan with one window side, a corner kitchen, and modeled seating zones.</h2>
+                <p>
+                  The bottom edge is the only window-facing wall, the kitchen sits in the upper-right corner, and the
+                  furniture is modeled as softer 3D-inspired objects instead of flat rectangles.
+                </p>
+              </div>
+              <div className="blueprint-grid" role="img" aria-label="Blueprint with one bottom window wall, kitchen in the upper-right corner, and 3D-inspired labeled cafe areas.">
+                {Array.from({ length: 900 }).map((_, index) => (
+                  <span key={index} className="blueprint-cell" aria-hidden="true"></span>
+                ))}
+                <div className="window-wall bottom">WINDOWS</div>
+                <div className="blueprint-block kitchen">KITCH</div>
+                {blueprintAreas.map((area) => (
+                  <div
+                    key={area.label + area.column + area.row}
+                    className={`blueprint-block type-${area.type}`}
+                    style={{ gridColumn: area.column, gridRow: area.row }}
+                  >
+                    <span>{area.label}</span>
+                  </div>
+                ))}
+              </div>
             </section>
 
             <div className="welcome-feature-band">
@@ -786,7 +922,7 @@ function App() {
         {activePage === 'reserve' && (
           <section className="page reserve-page">
             <div className="page-heading">
-              <p className="section-kicker">Reserve a table</p>
+              <p className="section-kicker">Reserve a spot</p>
               <h1>Choose your pass, your space, and your accountability setup.</h1>
               <p className="lead">
                 Hourly passes are $5 per selected hour, day passes are $20 with up to 3 area changes, and monthly members
@@ -798,11 +934,12 @@ function App() {
               <div className="reserve-map-card">
                 <div className="screen-banner">Tea bar, check-in counter, and complimentary coffee station</div>
                 <div className="legend" aria-label="Reservation legend">
-                  <span><i className="legend-dot window-booth-natural"></i>Window booth + natural lighting</span>
-                  <span><i className="legend-dot booth-dim"></i>Booth seating + dim lighting</span>
-                  <span><i className="legend-dot lounge-natural"></i>Lounge seats + natural lighting</span>
-                  <span><i className="legend-dot table-dim"></i>Table seating + dim lighting</span>
-                  <span><i className="legend-dot occupied"></i>Unavailable</span>
+                  <span><i className="legend-dot table-natural"></i>Tables + natural light</span>
+                  <span><i className="legend-dot study-room"></i>Study rooms</span>
+                  <span><i className="legend-dot couch-natural"></i>Couches + natural light</span>
+                  <span><i className="legend-dot couch-dim"></i>Couches + dim light</span>
+                  <span><i className="legend-dot window-bar"></i>Window bar seating</span>
+                  <span><i className="legend-dot bar-seat"></i>Bar seating</span>
                 </div>
                 <div className="table-map" role="grid" aria-label="Reservation table map">
                   {reservationRows.map((row, rowIndex) => (
@@ -843,8 +980,8 @@ function App() {
 
                 {!selectedTableData && (
                   <div className="booking-card">
-                    <h2>Pick a table to begin</h2>
-                    <p>Select any available seat to choose your pass, set your goals, and move into the payment step.</p>
+                    <h2>Pick a spot to begin</h2>
+                    <p>Select any available spot to choose your pass, set your goals, and move into the payment step.</p>
                   </div>
                 )}
 
